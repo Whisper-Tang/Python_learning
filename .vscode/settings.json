@@ -4,7 +4,8 @@
   // ========== 语言特定编码设置 ==========
   "[python]": {
     "files.encoding": "utf8",
-    "editor.defaultFormatter": "ms-python.python",
+    "editor.defaultFormatter": "ms-python.autopep8",
     "editor.formatOnSave": true
-  }
+  },
+  "files.candidateGuessEncodings": ["utf8", "gb2312"]
 }
