@@ -1,4 +1,16 @@
-*.a
-.vscode
-*.json
+# 忽略单个文件
+.env
+config.json
+
+# 忽略目录
+node_modules/
+__pycache__/
+build/
+.vscode/
+
+# 忽略特定类型文件
 *.log
+*.tmp
+*.swp
+*.json
+.vscode/*.json
