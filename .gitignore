@@ -1,6 +1,7 @@
 # 忽略单个文件
 .env
 config.json
+tempCodeRunnerFile.py
 
 # 忽略目录
 node_modules/
