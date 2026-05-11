@@ -10,6 +10,7 @@
 # 尝试爬取ACFUN的排名页面
 from datetime import datetime
 import json
+import re
 import requests
 
 
@@ -32,6 +33,8 @@ headers = {
 # 发送请求
 response = requests.get(acfun_rank_url, headers=headers)
 response.encoding = response.apparent_encoding
+request_time = datetime.now().strftime('%Y年%m月%d日 %H:%M:%S秒')
+request_time_desc = datetime.now().strftime('%Y年%m月%d日')
 # 打印响应内容
 # print(response.text)
 # 输出到文件（wsl输出到windows系统）
@@ -70,7 +73,7 @@ def generate_acfun_html(json_path, output_path):
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ACFUN 全信息排行榜日榜全数据档案 </title>
+        <title> ACFUN %s 排行榜 </title>
         <style>
             :root {
                 --primary-color: #ac0030; /* A站红 */
@@ -125,7 +128,7 @@ def generate_acfun_html(json_path, output_path):
                 box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             }
             .video-cover {
-                width: 100%;
+                width: 100%%;
                 height: 180px;
                 object-fit: cover;
                 border-bottom: 1px solid var(--border-color);
@@ -154,7 +157,7 @@ def generate_acfun_html(json_path, output_path):
             .up-avatar {
                 width: 28px;
                 height: 28px;
-                border-radius: 50%;
+                border-radius: 50%%;
                 margin-right: 8px;
                 object-fit: cover;
             }
@@ -203,9 +206,9 @@ def generate_acfun_html(json_path, output_path):
             .tooltip::after {
                 content: attr(data-tip);
                 position: absolute;
-                bottom: 100%;
-                left: 50%;
-                transform: translateX(-50%);
+                bottom: 100%%;
+                left: 50%%;
+                transform: translateX(-50%%);
                 width: max-content;
                 max-width: 200px;
                 background: #333;
@@ -233,7 +236,7 @@ def generate_acfun_html(json_path, output_path):
     </head>
     <body>
         <div class="header">
-            <h1>ACFUN  综合排行榜日榜全数据档案</h1>
+            <h1> %s ACFUN排行日榜 </h1>
             <div class="meta-info">
                 <strong>数据源主机：</strong>""" + data.get("host-name", "未知") + """ |
                 <strong>请求结果：</strong>""" + ("成功 (0)" if data.get("result") == 0 else "失败") + """ |
@@ -243,13 +246,16 @@ def generate_acfun_html(json_path, output_path):
 
         <div class="container">
     """
-
     # 遍历 rankList 生成卡片
     for index, item in enumerate(data.get("rankList", [])):
         # 提取基础信息
         title = item.get("contentTitle", "无标题")
         cover_url = item.get("videoCover", "")
         up_name = item.get("userName", "未知UP主")
+        up_id = item.get("userId", "")
+        up_url = f"https://www.acfun.cn/u/{up_id}" if up_id else "#"
+        video_id = item.get("dougaId", "")
+        video_url = f"https://www.acfun.cn/v/ac{video_id}" if video_id else "https://www.acfun.cn"
         up_avatar = item.get("userImg", "")
         view_count = item.get("viewCountShow", "0")
         danmu_count = item.get("danmuCountShow", "0")
@@ -272,17 +278,26 @@ def generate_acfun_html(json_path, output_path):
                 for tag in item.get("tagList", [])[:3]]  # 只取前3个主要标签
 
         # 构建卡片 HTML
+        # 点击封面跳转到视频详情页
         html_content += f"""
             <div class="card">
-                <img class="video-cover" src="{cover_url}" alt="{title}" onerror="this.src='https://via.placeholder.com/320x180?text=Image+Not+Found';">
+                    <!-- 点击封面跳转到视频详情页 -->
+                    <a href="{video_url}" target="_blank" style="display: block; position: relative;">
+                        <img class="video-cover" src="{cover_url}" alt="{title}" 
+                             onerror="this.src='https://via.placeholder.com/320x180?text=Image+Not+Found';">
+                    </a>    
                 <div class="content">
-                    <h3 class="title">{title}</h3>
-                    
-                    <div class="up-info">
-                        <img class="up-avatar" src="{up_avatar}" alt="{up_name}">
-                        <span><strong>UP主：</strong>{up_name}</span>
-                    </div>
-
+                    <h3 class="title">
+                            <a href="{video_url}" target="_blank" style="color: inherit; text-decoration: none;">
+                                {title}
+                            </a>
+                        </h3>
+                    <a href="{up_url}" target="_blank" style="text-decoration: none; color: inherit; display: contents;">
+                        <div class="up-info">   
+                            <img class="up-avatar" src="{up_avatar}" alt="{up_name}">
+                            <span><strong>UP主：</strong>{up_name}</span>
+                        </div>
+                    </a>
                     <div class="stats">
                         <div class="stat-item">👁️ 观看: <span class="tooltip" data-tip="原始ID: {item.get('dougaId', 'N/A')}">{view_count}</span></div>
                         <div class="stat-item">🍌 香蕉: {banana_count}</div>
@@ -310,7 +325,7 @@ def generate_acfun_html(json_path, output_path):
     html_content += """
         </div>
         <div class="footer">
-            <p>数据生成于：{create_time_desc}</p>
+            <p>数据生成于：%s </p>
         </div>
     </body>
     </html>
@@ -318,7 +333,8 @@ def generate_acfun_html(json_path, output_path):
 
     # 写入文件
     with open(output_path, "w", encoding="utf-8") as f:
-        f.write(html_content)
+        f.write(html_content %
+                (request_time_desc, request_time_desc, request_time))
 
     print(f"✅ HTML 页面已生成！共处理了 {len(data.get('rankList', []))} 条数据。")
     print(f"📁 保存路径: {output_path}")
@@ -333,3 +349,11 @@ generate_acfun_html(json_file_path, output_html_path)
 # with open("/mnt/c/Users/WhisperTang/Desktop/acfun_rank.html", "w", encoding="utf-8") as f:
 #     f.write(html_content)
 #     print(" 美化后的排行榜 HTML 文件已成功保存！")
+
+
+# 前端网页结构
+# 一个网页是由三个部分组成的，分别是: HTML、CSS、JS(JavaScript)。
+# HTML:超文本标记语言，由一堆预设的标签( < h1>一级标题</h1>)构成。
+# HTML负责网页的结构(页面元素和内容)CSS:层叠样式表。
+# CSS负责网页的表现(页面元素的外观、位置等样式，如颜色、大小等)
+# JS:全称为JavaScript，简称JS。负责网页的行为(交互效果，点击，滚动等)
