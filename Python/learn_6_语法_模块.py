@@ -17,7 +17,7 @@
 # __all__:模块级别的特殊变量,用于在模块中指定*所引入的模块功能
 # __all__ = "函数功能,..."
 
-from myPackageTest.myPackageTest import *  # 调用包
+from Package.myPackageTest import *  # 调用包
 import DiyModuleTest
 radius: float = 2
 print(f"半径为{radius}的圆面积为(π=3.14): {DiyModuleTest.circle_Area(radius)}")

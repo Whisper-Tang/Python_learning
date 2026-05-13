@@ -1,7 +1,10 @@
 {
   "files.autoGuessEncoding": true,
-
-   // ========== 语言特定编码设置 ==========
+  "editor.formatOnSave": true,
+  //Jupyter Notebook 默认内核
+  //  "notebook.defaultKernel": "python_learn_venv",
+  //  "python.defaultInterpreterPath": "/home/whisper/python_learn_venv/bin/python",
+  // ========== 语言特定编码设置 ==========
   "[html]": {
     "files.encoding": "utf8",
     "editor.defaultFormatter": "esbenp.prettier-vscode",

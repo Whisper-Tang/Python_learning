@@ -16,6 +16,7 @@
 # text()            选择所有文本节点                 text()
 # 爬取op.gg的tier排行榜
 
+import csv
 from math import e
 import lxml
 import lxml.html
@@ -73,8 +74,6 @@ for row in mostchampion_rows:
 # print(len(mostchampion_list))
 # for i in range(100):
 #     print(i+1,mostchampion_list[i])
-
-
 # 等级
 level_list = document.xpath('//main/table/tbody/tr/td[6]/text()')
 # print(level_list)
@@ -87,7 +86,6 @@ wincount_list = [[int(wincount_list[i]), int(wincount_list[i+2])]
 # print(wincount_list)
 # print(wincount_list[1][0], wincount_list[1][1])
 # print(int(wincount_list[1][0]), int(wincount_list[1][1]))
-
 # 胜率
 winrate_list = document.xpath(
     '//main/table/tbody/tr/td[7]/div/span/text()')
@@ -123,8 +121,9 @@ class summor_data:
     def __str__(self):
         mostchampion_str = '/'.join(
             self.mostchampion) if self.mostchampion else '无'
-        #return f'{self.rank}\t{self.summor}\t{self.tier}\t{self.lp}\t{mostchampion_str}\t{self.level}\t{self.win}\\{self.loss} {self.winrate}\n'
+        # return f'{self.rank}\t{self.summor}\t{self.tier}\t{self.lp}\t{mostchampion_str}\t{self.level}\t{self.win}\\{self.loss} {self.winrate}\n'
         return f'{self.rank},{self.summor},{self.tier},{self.lp},{mostchampion_str},{self.level},{self.win},{self.loss},{self.winrate}\n'
+
 
 # print(len(rank_list))
 # print(len(summor_list))
@@ -159,12 +158,10 @@ with open('/mnt/c/Users/WhisperTang/Desktop/opgg_tier.txt', 'w', encoding='utf-8
 # 每个数据项之间用逗号分隔
 # 每个数据项之间用换行符分隔
 
-import csv
 
 with open('/mnt/c/Users/WhisperTang/Desktop/opgg_tier.csv', 'w', encoding='utf-8-sig') as f:
     writer = csv.writer(f)
     writer.writerow(head_list)  # 写入表头
     for data in rank_data_list:
-        writer.writerow([data.rank, data.summor, data.tier, data.lp, '/'.join(data.mostchampion), data.level,str(data.win)+'/'+str(data.loss), data.winrate])
-# 将csv文件
-
+        writer.writerow([data.rank, data.summor, data.tier, data.lp, '/'.join(
+            data.mostchampion), data.level, str(data.win)+'/'+str(data.loss), data.winrate])
