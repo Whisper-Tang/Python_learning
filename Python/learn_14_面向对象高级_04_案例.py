@@ -20,151 +20,151 @@
 '''
 
 # def show_menu():
-# print('-'*30)
-# print('-----图书管理系统启动成功-----')
-# if not L.login_status:
-# print('当前未登录')
-# print('请选择要进行的操作：')
-# print('     1. 注册:')
-# print('     2. 登录:')
-# print('     3. 退出系统:')
-# else:
-# level = L.user.level
-# if level == 0:
-# member_type = '普通'
-# count = 3
-# else:
-# member_type = f'VIP:{level}'
-# count = level + 6
-# print(f'用户({member_type})已登录:    已借阅/最大借阅({L.user.borrowed_books_count}/{count})')
-# print('请选择要进行的操作：')
-# print('     0. 借书:')
-# print('     1. 还书:')
-# print('     2. 查看我的借阅:')
-# print('     3. 退出系统:')
-# print('     4. 登出:')
-# print('     5. 查看图书库存:')
+#     print('-'*30)
+#     print('-----图书管理系统启动成功-----')
+#     if not L.login_status:
+#         print('当前未登录')
+#         print('请选择要进行的操作：')
+#         print('     1. 注册:')
+#         print('     2. 登录:')
+#         print('     3. 退出系统:')
+#     else:
+#         level = L.user.level
+#         if level == 0:
+#             member_type = '普通'
+#             count = 3
+#         else:
+#             member_type = f'VIP:{level}'
+#             count = level + 6
+#         print(f'用户({member_type})已登录:    已借阅/最大借阅({L.user.borrowed_books_count}/{count})')
+#         print('请选择要进行的操作：')
+#         print('     0. 借书:')
+#         print('     1. 还书:')
+#         print('     2. 查看我的借阅:')
+#         print('     3. 退出系统:')
+#         print('     4. 登出:')
+#         print('     5. 查看图书库存:')
 #
 #
 # def register():
-# register_active = True
-# while (register_active):
-# print('--------会员注册--------')
-# print('注册成功自动登录')
-# input_card = input('请输入会员号：')
-# input_password = input('请输入密码：')
-# if input_card in L.user_account:
-# cmd = input('会员号已存在，返回登陆界面输入:1,其他键继续注册')
-# if cmd == '1':
-# register_active = False
-# else:
-# L.user_account[input_card] = Member(input_card, input_password)
-# print('注册成功')
-# L.login_status = True
-# L.user = L.user_account[input_card]
-# register_active = False
-# print('已登录')
+#     register_active = True
+#     while (register_active):
+#         print('--------会员注册--------')
+#         print('注册成功自动登录')
+#         input_card = input('请输入会员号：')
+#         input_password = input('请输入密码：')
+#         if input_card in L.user_account:
+#             cmd = input('会员号已存在，返回登陆界面输入:1,其他键继续注册')
+#             if cmd == '1':
+#                 register_active = False
+#         else:
+#             L.user_account[input_card] = Member(input_card, input_password)
+#             print('注册成功')
+#             L.login_status = True
+#             L.user = L.user_account[input_card]
+#             register_active = False
+#             print('已登录')
 #
 #
 # def login():
-# print('--------会员登录--------')
-# input_card = input('请输入会员号：')
-# input_password = input('请输入密码：')
-# if input_card in L.user_account and L.user_account[input_card].password == input_password:
-# L.login_status = True
-# L.user = L.user_account[input_card]
-# print('登录成功')
-# else:
-# L.login_status = False
-# print('登录失败')
+#     print('--------会员登录--------')
+#     input_card = input('请输入会员号：')
+#     input_password = input('请输入密码：')
+#     if input_card in L.user_account and L.user_account[input_card].password == input_password:
+#         L.login_status = True
+#         L.user = L.user_account[input_card]
+#         print('登录成功')
+#     else:
+#         L.login_status = False
+#         print('登录失败')
 #
 #
 # def borrow_book():
-# borrow_active = True
-# while (borrow_active):
-# print('--------借阅图书--------')
-# if L.user.level == 0:
-# max_borrow = 3
-# else:
-# max_borrow = 6 + L.user.level
-# user_borrowed = L.user.borrowed_books_count
-# print(f'您的最大借阅数量为{max_borrow}, 已借阅{user_borrowed}本')
-# if user_borrowed >= max_borrow:
-# print('已借阅数量已达最大借阅数量,请还书后再借阅')
-# return
-# print(f'您还可以借阅{max_borrow - user_borrowed}本')
-# 借阅图书
-# book_name = input('请输入图书名称：')
-# book_count = int(input('请输入借阅数量：'))
+#     borrow_active = True
+#     while (borrow_active):
+#         print('--------借阅图书--------')
+#         if L.user.level == 0:
+#             max_borrow = 3
+#         else:
+#             max_borrow = 6 + L.user.level
+#         user_borrowed = L.user.borrowed_books_count
+#         print(f'您的最大借阅数量为{max_borrow}, 已借阅{user_borrowed}本')
+#         if user_borrowed >= max_borrow:
+#             print('已借阅数量已达最大借阅数量,请还书后再借阅')
+#             return
+#         print(f'您还可以借阅{max_borrow - user_borrowed}本')
+#         # 借阅图书
+#         book_name = input('请输入图书名称：')
+#         book_count = int(input('请输入借阅数量：'))
 #
-# if book_name not in L.books :
-# print('图书不存在')
-# return
-# elif L.books[book_name] < book_count:
-# print(f'图书库存不足,当前库存为{L.books[book_name]}本')
-# return
-# elif book_count > max_borrow - user_borrowed:
-# print(f'您只能借阅{max_borrow - user_borrowed}本')
-# return
-# else:
-# L.user.borrowed_books_count += book_count
-# if book_name not in L.user.borrowed_books:
-# L.user.borrowed_books[book_name] = book_count
-# else:
-# L.user.borrowed_books[book_name] += book_count
-# L.books[book_name] -= book_count
-# print('借阅成功')
-# print(f'您已借阅{book_count}本{book_name}')
-# borrow_active = False
+#         if book_name not in L.books:
+#             print('图书不存在')
+#             return
+#         elif L.books[book_name] < book_count:
+#             print(f'图书库存不足,当前库存为{L.books[book_name]}本')
+#             return
+#         elif book_count > max_borrow - user_borrowed:
+#             print(f'您只能借阅{max_borrow - user_borrowed}本')
+#             return
+#         else:
+#             L.user.borrowed_books_count += book_count
+#             if book_name not in L.user.borrowed_books:
+#                 L.user.borrowed_books[book_name] = book_count
+#             else:
+#                 L.user.borrowed_books[book_name] += book_count
+#             L.books[book_name] -= book_count
+#             print('借阅成功')
+#             print(f'您已借阅{book_count}本{book_name}')
+#             borrow_active = False
 #
 #
 # def return_book():
-# return_active = True
-# while (return_active):
-# print('--------归还图书--------')
-# if L.user.borrowed_books_count == 0:
-# print('您未借阅任何图书,无需还书')
-# return
-# 还书图书
-# book_name = input('请输入图书名称：')
-# book_count = int(input('请输入还书数量：'))
-# if book_name not in L.user.borrowed_books or book_count > L.user.borrowed_books[book_name]:
-# print('还书信息错误或还书数量超出借阅数量')
-# return
-# else:
-# L.user.borrowed_books_count -= book_count
-# L.user.borrowed_books[book_name] -= book_count
-# L.books[book_name] += book_count
-# print('还书成功')
-# print(f'您已还书{book_count}本{book_name}')
-# print("继续还书请输入:1,其他键结束")
-# cmd = input('请输入您的选择：')
-# if cmd != '1':
-# return_active = False
+#     return_active = True
+#     while (return_active):
+#         print('--------归还图书--------')
+#         if L.user.borrowed_books_count == 0:
+#             print('您未借阅任何图书,无需还书')
+#             return
+#         # 还书图书
+#         book_name = input('请输入图书名称：')
+#         book_count = int(input('请输入还书数量：'))
+#         if book_name not in L.user.borrowed_books or book_count > L.user.borrowed_books[book_name]:
+#             print('还书信息错误或还书数量超出借阅数量')
+#             return
+#         else:
+#             L.user.borrowed_books_count -= book_count
+#             L.user.borrowed_books[book_name] -= book_count
+#             L.books[book_name] += book_count
+#             print('还书成功')
+#             print(f'您已还书{book_count}本{book_name}')
+#             print("继续还书请输入:1,其他键结束")
+#             cmd = input('请输入您的选择：')
+#             if cmd != '1':
+#                 return_active = False
 #
 #
 # def show_my_borrowed():
-# print('--------查看我的借阅--------')
-# if L.user.borrowed_books_count == 0:
-# print('您未借阅任何图书')
-# return
+#     print('--------查看我的借阅--------')
+#     if L.user.borrowed_books_count == 0:
+#         print('您未借阅任何图书')
+#         return
 #
-# print(f'您已借阅图书如下：')
-# for x in L.user.borrowed_books:
-# if L.user.borrowed_books[x] > 0:
-# print(f'{x}: {L.user.borrowed_books[x]}本')
-# pass
+#     print(f'您已借阅图书如下：')
+#     for x in L.user.borrowed_books:
+#         if L.user.borrowed_books[x] > 0:
+#             print(f'{x}: {L.user.borrowed_books[x]}本')
+#             pass
 #
 #
 # def logout():
-# L.login_status = False
-# L.user = None
-# print('已登出')
+#     L.login_status = False
+#     L.user = None
+#     print('已登出')
 #
 # def show_library():
-# for x in L.books:
-# print(f'{x}: {L.books[x]}本')
-# input('图书库存显示完成,输入任意键返回')
+#     for x in L.books:
+#         print(f'{x}: {L.books[x]}本')
+#     input('图书库存显示完成,输入任意键返回')
 
 
 class Member:
@@ -177,11 +177,11 @@ class Member:
 
 
 class Library:
-    def __init__(self, login_status: bool = False, user_account: dict = {}, user: Member = None, books: dict = {}, active: bool = True):
+    def __init__(self, login_status: bool = False, user_account: dict = None, user: Member = None, books: dict = None, active: bool = True):
         self.login_status = login_status  # 登录状态
-        self.user_account = user_account  # 会员账号字典
+        self.user_account = {} if user_account is None else user_account  # 会员账号字典
         self.user = user  # 当前登录用户
-        self.books = books  # 图书库存字典
+        self.books = {} if not books is None else books  # 图书库存字典
         self.active = active  # 系统是否运行中
 
     def show_menu(self):
@@ -248,7 +248,7 @@ class Library:
 
             input_password = input('请输入密码：')
 
-            if input_card in L.user_account:
+            if input_card in self.user_account:
 
                 cmd = input('会员号已存在，返回登陆界面输入:1,其他键继续注册')
 
@@ -265,7 +265,7 @@ class Library:
 
                 self.login_status = True
 
-                self.user = L.user_account[input_card]
+                self.user = self.user_account[input_card]
 
                 register_active = False
 
@@ -335,7 +335,7 @@ class Library:
 
             elif self.books[book_name] < book_count:
 
-                print(f'图书库存不足,当前库存为{L.books[book_name]}本')
+                print(f'图书库存不足,当前库存为{self.books[book_name]}本')
 
                 return
 
@@ -349,7 +349,7 @@ class Library:
 
                 self.user.borrowed_books_count += book_count
 
-                if book_name not in L.user.borrowed_books:
+                if book_name not in self.user.borrowed_books:
 
                     self.user.borrowed_books[book_name] = book_count
 
@@ -427,7 +427,7 @@ class Library:
 
             if self.user.borrowed_books[x] > 0:
 
-                print(f'{x}: {L.user.borrowed_books[x]}本')
+                print(f'{x}: {self.user.borrowed_books[x]}本')
 
         pass
 
@@ -482,8 +482,5 @@ if __name__ == '__main__':
             L.logout()
         elif L.login_status and cmd == '5':
             L.show_library()
-        elif cmd == '3':
-            L.active = False
-            print('退出系统')
         else:
             print('输入错误')
