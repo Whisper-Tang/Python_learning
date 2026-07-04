@@ -67,22 +67,21 @@ class Player:
 
 
 # 创建对象
-p1 = Player("李相赫", "Hide on bush", 1, 2500)
-print(p1.__dict__)
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.play()
-p1.cangeid("Faker")
-print(p1.__dict__)
+faker = Player("李相赫", "Hide on bush", 1, 2500)
+print(faker.__dict__)
+faker.play()
+faker.play()
+faker.play()
+faker.play()
+faker.play()
+faker.play()
+faker.play()
+faker.play()
+faker.play()
+faker.play()
+faker.play()
+faker.cangeid("Faker")
+print(faker.__dict__)
 
 
 # 魔法方法,部分类似c++中的运算符重载
